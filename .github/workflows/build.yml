@@ -1,0 +1,39 @@
+name: Build Flutter APK
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Kodlarni yuklash
+        uses: actions/checkout@v4
+
+      - name: Java muhitini sozlash
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Flutter muhitini sozlash
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Kutubxonalarni yuklash
+        run: flutter pub get
+
+      - name: APK yig'ish
+        run: flutter build apk --release --no-tree-shake-icons
+
+      - name: APK faylni yuklab olish uchun saqlash
+        uses: actions/upload-artifact@v4
+        with:
+          name: Telegram-UZ
+          path: build/app/outputs/flutter-apk/app-release.apk
+          
