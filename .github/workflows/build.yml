@@ -25,13 +25,17 @@ jobs:
           channel: 'stable'
           cache: true
 
+      # Telefonda ishlayotganingiz uchun Android papkasini GitHub'ning o'zida yaratamiz:
+      - name: Android papkasini avtomatik yaratish
+        run: flutter create . --platforms=android
+
       - name: Kutubxonalarni yuklash
         run: flutter pub get
 
       - name: APK yig'ish
         run: flutter build apk --release --no-tree-shake-icons
 
-      - name: APK faylni yuklab olish uchun saqlash
+      - name: APK faylini saqlash
         uses: actions/upload-artifact@v4
         with:
           name: Telegram-UZ
