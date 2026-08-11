@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
 
 class AuthService {
-  // 1. my.telegram.org saytidan olgan kalitlaringizni shu yerga qo'ying:
-  final int apiId = 12345678; // O'zingizning API ID raqamingiz
-  final String apiHash = 'YOUR_API_HASH'; // O'zingizning API Hash kodingiz
+  // Telegram API kalitlaringiz joylashtirildi:
+  final int apiId = 37349381;
+  final String apiHash = 'b98c62f5d7f406bea15614613e4a3e41';
 
-  // Telefon raqamga Telegram orqali SMS kod yuborish
+  // Telegram serveriga SMS kod yuborish
   Future<bool> sendCode(String phoneNumber) async {
     try {
-      print("Telegram serveriga raqam yuborilmoqda: $phoneNumber");
-      
-      // TDLib funksiyasi chaqiriladi:
-      // setAuthenticationPhoneNumber(phoneNumber)
-      
-      return true; // Kod muvaffaqiyatli yuborildi
+      print("Telegram serveriga so'rov yuborilmoqda...");
+      print("API ID: $apiId");
+      print("Telefon: $phoneNumber");
+
+      // TDLib funksiyasi orqali Telegram serveriga ulanish:
+      // await TelegramClient.sendCode(phoneNumber, apiId: apiId, apiHash: apiHash);
+
+      await Future.delayed(Duration(seconds: 1)); // Yuklanish simulyatsiyasi
+      return true;
     } catch (e) {
-      print("Xatolik yuz berdi: $e");
+      print("SMS kod yuborishda xatolik: $e");
       return false;
     }
   }
@@ -24,13 +27,14 @@ class AuthService {
   Future<bool> verifyCode(String smsCode) async {
     try {
       print("Kod tekshirilmoqda: $smsCode");
-      
-      // TDLib funksiyasi chaqiriladi:
-      // checkAuthenticationCode(smsCode)
-      
-      return true; // Kod to'g'ri, tizimga kirildi!
+
+      // TDLib funksiyasi orqali kodni tasdiqlash:
+      // await TelegramClient.checkCode(smsCode);
+
+      await Future.delayed(Duration(seconds: 1)); // Yuklanish simulyatsiyasi
+      return true;
     } catch (e) {
-      print("Kod xato kiritildi: $e");
+      print("Kod tasdiqlashda xatolik: $e");
       return false;
     }
   }
